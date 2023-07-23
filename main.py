@@ -10,6 +10,6 @@ from threading import Thread
 if __name__ == "__main__":
     bot.add_custom_filter(StateFilter(bot))
     set_commands(bot)    # Отправка команд боту
-    schedule.every().sunday.at("12:35").do(send_zhabka)    # Установка времени для отправки рассылки и отсылки к нужной функции
+    schedule.every().sunday.at("00:00").do(send_zhabka)    # Установка времени для отправки рассылки и отсылки к нужной функции
     Thread(target=schedule_checker).start()    # Запуск потока для проверки времени расписания
     bot.infinity_polling()    # Запуск бота
