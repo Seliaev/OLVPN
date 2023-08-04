@@ -1,8 +1,9 @@
 from telebot.types import Message
-
+from loguru import logger
 from loader import bot
 
-# Хндлер с текстовыми сообщения без указанного состояния
+@logger.catch
 @bot.message_handler(state=None)
 def bot_echo(message: Message):
+    # Текстовые сообщения без указанного состояния
     pass

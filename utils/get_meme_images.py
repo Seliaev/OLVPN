@@ -1,12 +1,13 @@
 from os.path import join
 from os import listdir
 from random import choice
-
+from typing import List
 from config_data.config import MEME_IMAGES_FOLDER
 
-LIST_FILES = []
+LIST_FILES = [] # Список с файлами мем-картинок
 
-def get_meme_image():
+def get_meme_image() -> List[str] or False:
+    # Получение списка файлов смемами
     global LIST_FILES
     try:
         if len(LIST_FILES) == 0:
@@ -20,7 +21,9 @@ def get_meme_image():
         return False
     return LIST_FILES
 
-def get_random_path_meme():
+
+def get_random_path_meme() -> str or False:
+    # Получение рандомной картинки - путь до нее.
     global LIST_FILES
     list_path_images = get_meme_image()
     if list_path_images == False or len(list_path_images) == 0 :

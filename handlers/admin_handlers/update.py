@@ -3,7 +3,10 @@ from images_update.ya_images_updater import ya_updater
 from states.query_for_ya import QueryForYa
 from config_data.config import ADMIN_ID
 from loader import bot
+from loguru import logger
 
+
+@logger.catch
 @bot.message_handler(commands=["update"])
 def bot_update(message: Message):
     # Обновление картинок с жабами
@@ -13,6 +16,7 @@ def bot_update(message: Message):
                "Примеры: 'Это среда, мои чюваки', 'it's wednesday my dudes'"
         bot.send_message(message.from_user.id, text)
 
+@logger.catch
 @bot.message_handler(state=QueryForYa.query)
 def get_query(message: Message):
     # Запрос для поиска картинок
@@ -22,6 +26,7 @@ def get_query(message: Message):
     with bot.retrieve_data(message.from_user.id, message.chat.id) as data:
         data['query'] = message.text
 
+@logger.catch
 @bot.message_handler(state=QueryForYa.start_page)
 def get_query(message: Message):
     # Запрос для начальной страницы поиска

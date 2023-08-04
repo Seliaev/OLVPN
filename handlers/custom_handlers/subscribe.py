@@ -2,7 +2,9 @@ from telebot.types import Message
 from database.init_db import DATABASE, db_lock
 from utils.check_subscribe import check_subscribe
 from loader import bot
+from loguru import logger
 
+@logger.catch
 @bot.message_handler(commands=["subscribe"])
 def subscribe(message: Message):
     # Подписка на еженедельную рассылку в среду

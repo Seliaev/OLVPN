@@ -1,7 +1,7 @@
 from database.init_db import DATABASE, db_lock
 
 
-def check_subscribe(user_id):
+def check_subscribe(user_id) -> bool:
     # Получаем список подписанных пользователей из базы данных
     with db_lock:
         DATABASE.cursor.execute("SELECT user_id FROM subscriptions WHERE subscribed = 1")

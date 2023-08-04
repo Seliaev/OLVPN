@@ -4,7 +4,7 @@ from loader import bot
 from telebot.types import Message
 
 
-def send_zhabka(message: Message):
+def send_zhabka(message: Message) -> bool:
     # Получаем список подписанных пользователей из базы данных
     with db_lock:
         DATABASE.cursor.execute("SELECT user_id FROM subscriptions WHERE subscribed = 1")

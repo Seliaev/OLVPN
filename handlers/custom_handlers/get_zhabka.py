@@ -1,8 +1,10 @@
 from telebot.types import Message
-
+from loguru import logger
 from utils.get_meme_images import get_random_path_meme
 from loader import bot
 
+
+@logger.catch
 @bot.message_handler(commands=["get_zhabka"])
 def get_meme(message: Message):
     # Получаем случайную картинку из папки с жабами

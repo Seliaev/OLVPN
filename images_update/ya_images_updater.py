@@ -3,8 +3,10 @@ from bs4 import BeautifulSoup
 import os
 from urllib.parse import urljoin
 from .ya_config import headers, query, start_page
+from loguru import logger
 
 
+@logger.catch
 def parse_yandex_images(query:str='it is wednesday my dude', start_page: int=0, limit: int=50):
     # Парсинг страницы Яндекс.Картинок и получение ссылок на изображения
     try:
@@ -29,6 +31,7 @@ def parse_yandex_images(query:str='it is wednesday my dude', start_page: int=0, 
         print(e)
         return False
 
+@logger.catch
 def download_images(image_urls):
     # Загрузка изображений по ссылкам в каталог
     try:
@@ -47,6 +50,7 @@ def download_images(image_urls):
         print(e)
         return False
 
+@logger.catch
 def ya_updater(query=query, start_page=start_page, limit=50):
     # Обновление картинок
     image_urls = parse_yandex_images(query=query, start_page=start_page, limit=limit) # Парсим ссылки на картинки с Яндекс.Картинок с ограничением в 50 картинок
