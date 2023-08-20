@@ -9,8 +9,8 @@ from config_data.config import DEFAULT_COMMANDS
 
 def set_commands(bot) -> None:
     """
-    Установка списка команд в бот.
-    Функция устанавливает в бот список команд, используя переданный список команд DEFAULT_COMMANDS.
+    Установка списка команд в бота.
+    Функция устанавливает в бота список команд, используя переданный список команд DEFAULT_COMMANDS.
     :param bot: Экземпляр бота
     :return: None
     """

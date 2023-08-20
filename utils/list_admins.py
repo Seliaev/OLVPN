@@ -1,9 +1,9 @@
-from config_data.config import ADMIN_ID
 """
 Модуль работы с назначенными админами.
 
 """
 
+from config_data.config import ADMIN_ID
 from typing import List
 
 def get_list_admin() -> List[str]:

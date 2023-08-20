@@ -23,7 +23,7 @@ def get_all_file_log() -> list:
     return files_name_list
 
 
-def check_file(filename: str) -> str:
+def check_file(filename) -> str:
     """
     Проверка и анализ содержимого файла лога JSON.
 
@@ -58,7 +58,6 @@ def check_file(filename: str) -> str:
 <b>Название файла ошибки</b>: <i>{file_name}</i>
 <b>Функция</b>: <i>{html.escape(function)}</i>
 <b>Линия</b>: <i>{line}</i>
-
 """
                 except json.JSONDecodeError as e:
                     return f"Ошибка декодирования JSON: {e}"
