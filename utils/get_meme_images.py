@@ -7,7 +7,11 @@ from config_data.config import MEME_IMAGES_FOLDER
 LIST_FILES = [] # Список с файлами мем-картинок
 
 def get_meme_image() -> List[str] or False:
-    # Получение списка файлов смемами
+    """
+    Получение списка файлов с мемами.
+
+    :return: Список путей к файлам с мемами (с расширениями .jpg или .png), либо False в случае ошибки.
+    """
     global LIST_FILES
     try:
         if len(LIST_FILES) == 0:
@@ -23,7 +27,11 @@ def get_meme_image() -> List[str] or False:
 
 
 def get_random_path_meme() -> str or False:
-    # Получение рандомной картинки - путь до нее.
+    """
+    Получение случайного пути к файлу с мемом.
+
+    :return: Случайный путь к файлу с мемом (с расширением .jpg или .png), либо False, если нет доступных файлов.
+    """
     global LIST_FILES
     list_path_images = get_meme_image()
     if list_path_images == False or len(list_path_images) == 0 :

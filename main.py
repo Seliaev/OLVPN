@@ -12,11 +12,23 @@ from loguru import logger
 setup_logger() # Конфигурация логгера
 
 @logger.catch
-def main():
+def main() -> None:
+    """
+    Основная функция для запуска бота и его функций.
+
+    Функция выполняет следующие шаги:
+    1. Добавление пользовательского фильтра состояния.
+    2. Установка команд для бота.
+    3. Запуск расписания для отправки рассылки в среду.
+    4. Запуск потока для проверки времени расписания.
+    5. Запуск бесконечного опросчика бота.
+
+    :return: None
+    """
     bot.add_custom_filter(StateFilter(bot))
-    set_commands(bot)    # Отправка команд боту
-    schedule.every().wednesday.at("00:00").do(send_zhabka)    # Установка времени для отправки рассылки и отсылки к нужной функции
-    Thread(target=schedule_checker).start()    # Запуск потока для проверки времени расписания
+    set_commands(bot)
+    schedule.every().wednesday.at("00:00").do(send_zhabka)
+    Thread(target=schedule_checker).start()
     bot.infinity_polling()
 
 

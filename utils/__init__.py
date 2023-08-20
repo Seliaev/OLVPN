@@ -1,4 +1,3 @@
-from . import misc
 from . import get_meme_images
 from . import set_commands
 from . import check_subscribe
