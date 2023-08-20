@@ -1,8 +1,17 @@
+"""
+Модуль проверки подписки в БД.
+
+"""
+
 from database.init_db import DATABASE, db_lock
 
-
 def check_subscribe(user_id) -> bool:
-    # Получаем список подписанных пользователей из базы данных
+    """
+    Проверка, подписан ли пользователь на еженедельную рассылку.
+
+    :param user_id: Идентификатор пользователя.
+    :return: True, если пользователь подписан, иначе False.
+    """
     with db_lock:
         DATABASE.cursor.execute("SELECT user_id FROM subscriptions WHERE subscribed = 1")
         result = DATABASE.cursor.fetchall()

@@ -1,3 +1,8 @@
+"""
+Модуль отправки картинки
+
+"""
+
 from database.init_db import DATABASE, db_lock
 from utils.get_meme_images import get_random_path_meme
 from loader import bot
@@ -5,8 +10,19 @@ from telebot.types import Message
 
 
 def send_zhabka(message: Message) -> bool:
-    # Получаем список подписанных пользователей из базы данных
+    """
+    Отправление картинки подписанным пользователям по расписанию и из schedule
+
+    Функция получает список подписанных пользователей из базы данных и отправляет случайную картинку
+    из папки каждому подписчику.
+
+    Если папка картинок пустая, сообщает об этом пользователю.
+
+    :param message: Сообщение из телеграма
+    :return: Всегда возвращает True после выполнения
+    """
     with db_lock:
+        #Проверка подписки пользователя в БД
         DATABASE.cursor.execute("SELECT user_id FROM subscriptions WHERE subscribed = 1")
         result = DATABASE.cursor.fetchall()
         subscribed_users = [row[0] for row in result]

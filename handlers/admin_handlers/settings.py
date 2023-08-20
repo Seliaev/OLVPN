@@ -1,3 +1,9 @@
+"""
+Модуль, содержащий обработчики сообщений для Telegram бота
+Сообщения являются настройками бота, меню для админа.
+
+"""
+
 from telebot.types import Message
 from loguru import logger
 from config_data.config import ADMIN_ID
@@ -14,14 +20,29 @@ from utils.list_admins import get_list_admin, add_new_admin, del_admin
 
 @logger.catch
 @bot.message_handler(commands=["settings"])
-def bot_help(message: Message):
-    # Вызов настроек администратора
+def bot_settings(message: Message):
+    '''
+    Обработчик команды /settings.
+
+    Если пользователь является администратором, отправляет сообщение с настройками(клавиатура keyboard_settings).
+
+    :param message: Объект сообщения от Telegram бота.
+    :return: None
+    '''
     if message.chat.id in ADMIN_ID:
             bot.send_message(message.chat.id,"Выберите нужный пункт",reply_markup=keyboard_settings())
 
 @logger.catch
 @bot.message_handler(func=lambda message:True)
 def all_messages(message):
+    """
+    Обработчик всех сообщений.
+
+    Разбирает сообщения на различные действия в зависимости от текста сообщения.
+
+    :param message: Объект сообщения от Telegram бота.
+    :return: None
+    """
     if message.text == "✅Закрыть меню":
         # Закрыть меню настроек
         markup = ReplyKeyboardRemove()
@@ -74,7 +95,14 @@ def all_messages(message):
 
 @logger.catch
 def process_time_input(message):
-    # Процесс установки нового времени рассылки, а так же проверка на корректность данных. Если не верно - запрос снова.
+    """
+    Процесс установки нового времени рассылки и проверки на корректность этих данных:
+    формат 'часы:минуты' (от 00:00 до 23:59)
+    Если данные не верны, отправляется запрос на повторный ввод времени.
+
+    :param message: Объект сообщения от Telegram бота.
+    :return: None
+    """
     new_time = message.text.strip()
     markup = ReplyKeyboardRemove()
     if is_valid_time(new_time):
@@ -88,7 +116,16 @@ def process_time_input(message):
 
 @logger.catch
 def process_add_new_admin(message):
-    # Процесс добавления нового администратора.
+    """
+    Процесс добавления нового администратора.
+
+    Принимает id нового администратора из сообщения.
+    Если id корректно(число), добавляет его в список администраторов.
+    Если id не является числом, отправляет сообщение о некорректном вводе и просит ввести снова.
+
+    :param message: Объект сообщения от Telegram бота.
+    :return: None
+    """
     id_new_admin = message.text
     if id_new_admin.isdigit() and add_new_admin(id_new_admin):
         bot.send_message(message.chat.id, f"Новый админ - {id_new_admin}")
@@ -99,7 +136,17 @@ def process_add_new_admin(message):
 
 @logger.catch
 def process_del_admin(message):
-    # Процесс удаления администратора.
+    """
+    Процесс удаления администратора.
+
+    Принимает id администратора из сообщения.
+    Если id корректно(число) и соответствует существующему администратору, удаляет его из списка администраторов.
+    Если id не является числом или не соответствует существующему администратору,
+    отправляет сообщение о некорректном вводе или отсутствии такого администратора, просит ввести снова.
+
+    :param message: Объект сообщения от Telegram бота.
+    :return: None
+    """
     id_del_admin = message.text
     if id_del_admin.isdigit() and del_admin(id_del_admin):
         bot.send_message(message.chat.id, f"Удален админ - {id_del_admin}")

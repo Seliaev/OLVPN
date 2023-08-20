@@ -1,23 +1,38 @@
+"""
+Модуль составления тела сообщения из файла с логами и вывод в ответном сообщении
+
+"""
+
 import os
 import json
+import html
 from datetime import datetime
 
 def get_all_file_log() -> list:
-    # Получаем путь к каталогу с логами и передаем список файлов с *.json списком в клавиатуру reply на команду /log_show
+    """
+    Получение списка названий всех файлов логов.
+
+    :return: Список названий файлов логов.
+    """
     files_name_list = []
-    current_dir = os.path.dirname(os.getcwd())
+    current_dir = os.getcwd()
     file_path = os.path.join(current_dir, "logs")
     for i_name_file in os.listdir(file_path):
         if i_name_file.endswith(".json"):
             files_name_list.append(i_name_file)
     return files_name_list
 
-# Обработать список верхний с названиями файлов, выводя их как клавиатуру, для выбора в чате бота.
 
-def check_file(filename) -> str:
-    current_dir = os.path.dirname(os.getcwd())
+def check_file(filename: str) -> str:
+    """
+    Проверка и анализ содержимого файла лога JSON.
 
-    file_path = os.path.join(current_dir, "python_basic_diploma\logs", filename)
+    :param filename: Название файла лога.
+    :return: Строка с данными об ошибках из файла лога.
+    """
+
+    current_dir = os.getcwd()
+    file_path = os.path.join(current_dir, "logs", filename)
     answer = ''
     try:
         with open(file_path, "r") as file:
@@ -41,7 +56,7 @@ def check_file(filename) -> str:
 <b>Тип ошибки</b>: <i>{error_type}</i>
 <b>Сообщение об ошибке</b>: <i>{escaped_error_message}</i>
 <b>Название файла ошибки</b>: <i>{file_name}</i>
-<b>Функция</b>: <i>{function}</i>
+<b>Функция</b>: <i>{html.escape(function)}</i>
 <b>Линия</b>: <i>{line}</i>
 
 """
@@ -52,3 +67,5 @@ def check_file(filename) -> str:
         return "Файл не найден."
     except json.JSONDecodeError as e:
         return f"Ошибка декодирования JSON: {e}"
+
+

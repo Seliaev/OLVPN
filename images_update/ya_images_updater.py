@@ -1,14 +1,29 @@
+"""
+Модуль парсинга изображений с яндекс.картинок.
+
+"""
+
 import requests
 from bs4 import BeautifulSoup
 import os
 from urllib.parse import urljoin
-from .ya_config import headers, query, start_page
+from typing import List
 from loguru import logger
 
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36'}
+start_page = 0
+query = 'it is wednesday my dude'
 
 @logger.catch
-def parse_yandex_images(query:str='it is wednesday my dude', start_page: int=0, limit: int=50):
-    # Парсинг страницы Яндекс.Картинок и получение ссылок на изображения
+def parse_yandex_images(query:str='it is wednesday my dude', start_page: int=0, limit: int=50) -> List[str] or False:
+    """
+    Парсинг страницы Яндекс.Картинок и получение ссылок на изображения.
+
+    :param query: Запрос для поиска изображений (по умолчанию "it is wednesday my dude").
+    :param start_page: Начальная страница для поиска (по умолчанию 0).
+    :param limit: Максимальное количество изображений для получения (по умолчанию 50).
+    :return: Список ссылок на изображения или False в случае ошибки.
+    """
     try:
         image_urls = []
         while len(image_urls) < limit:
@@ -32,8 +47,13 @@ def parse_yandex_images(query:str='it is wednesday my dude', start_page: int=0, 
         return False
 
 @logger.catch
-def download_images(image_urls):
-    # Загрузка изображений по ссылкам в каталог
+def download_images(image_urls) -> bool:
+    """
+    Загрузка изображений по ссылкам в каталог.
+
+    :param image_urls: Список ссылок на изображения для загрузки.
+    :return: True, если загрузка прошла успешно, иначе False.
+    """
     try:
         current_dir = os.getcwd()  # Получаем текущий рабочий каталог
         folder_name = "images"  # Создаем папку загрузки в текущем рабочем каталоге
@@ -51,8 +71,15 @@ def download_images(image_urls):
         return False
 
 @logger.catch
-def ya_updater(query=query, start_page=start_page, limit=50):
-    # Обновление картинок
+def ya_updater(query=query, start_page=start_page, limit=50) -> bool:
+    """
+    Обновление картинок.
+
+    :param query: Запрос для поиска изображений (по умолчанию "it is wednesday my dude").
+    :param start_page: Начальная страница для поиска (по умолчанию 0).
+    :param limit: Максимальное количество изображений для получения (по умолчанию 50).
+    :return: True, если обновление прошло успешно, иначе False.
+    """
     image_urls = parse_yandex_images(query=query, start_page=start_page, limit=limit) # Парсим ссылки на картинки с Яндекс.Картинок с ограничением в 50 картинок
     images = download_images(image_urls) # Загружаем картинки по ссылкам в папку
     if len(image_urls) > 0 and images == True:

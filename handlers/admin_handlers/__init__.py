@@ -1,2 +1,2 @@
-from . import settings
 from . import update
+from . import settings
