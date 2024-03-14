@@ -1,1 +1,0 @@
-from . import ya_images_updater
