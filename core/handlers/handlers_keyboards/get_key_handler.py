@@ -17,9 +17,10 @@ async def get_key(call: CallbackQuery, state: FSMContext) -> (str, InlineKeyboar
     :param state: FSMContext - Объект FSMContext.
     :return: Текст ответа и клавиатура.
     """
+    id_user = call.from_user.id
     name_temp = call.data
     content = await create_answer_from_html(name_temp=name_temp)
-    return content, time_keyboard()
+    return content, await time_keyboard(id_user=id_user)
 
 
 async def day_key(call: CallbackQuery, state: FSMContext) -> (str, InlineKeyboardMarkup):
@@ -93,4 +94,4 @@ async def my_key(call: CallbackQuery, state: FSMContext) -> (str, InlineKeyboard
                 content = await create_answer_from_html(name_temp=name_temp, user_key=user_data.key, untill_date=untill_date)
                 return content, start_keyboard()
     content = f'У вас нет ключа'
-    return content, time_keyboard()
+    return content, await time_keyboard(id_user=id_user)
