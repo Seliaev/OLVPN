@@ -13,11 +13,11 @@ from core.handlers.start import command_start
 router: Router = Router()
 olm = OutlineManager()
 BOT_TOKEN = api_key_tlg
+bot: Bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
 
 
 async def start_bot():
     """Запуск бота"""
-    bot: Bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode="HTML"))
     dp: Dispatcher = Dispatcher()
     dp.include_router(router=router)
     dp.message.register(command_start, Command('start'))

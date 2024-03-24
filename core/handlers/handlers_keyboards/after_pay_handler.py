@@ -40,7 +40,7 @@ async def pay_check_key(call: CallbackQuery, state: FSMContext) -> tuple:
     data = await state.get_data()
     payment_url, payment = data.get('pay', (None, None))
     if payment:
-        result_pay = True#await check_payment(payment.id)
+        result_pay = await check_payment(payment.id)
         if result_pay:
             id_user = call.from_user.id
             content = await after_pay(call, state)
