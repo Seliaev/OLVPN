@@ -19,6 +19,7 @@ class Users(Base):
     - id (str): Идентификатор пользователя (первичный ключ).
     - account (int): Идентификатор пользователя телеграм (уникальный).
     - account_name (str): Имя пользователя телеграм.
+    - promo_key (bool): Флаг получения промо-ключа (по умолчанию False).
     - premium (bool): Флаг премиум-статуса (по умолчанию False).
     - date (DateTime): Дата до которой длится премиум.
     - key (str): Ключ пользователя.
@@ -28,6 +29,7 @@ class Users(Base):
     id = Column(String, primary_key=True)
     account = Column(Integer, unique=True)
     account_name = Column(String)
+    promo_key = Column(Boolean, default=False)
     premium = Column(Boolean, default=False)
     date = Column(DateTime, nullable=True)
     key = Column(String, nullable=True)

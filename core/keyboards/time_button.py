@@ -15,6 +15,7 @@ def time_keyboard() -> InlineKeyboardMarkup:
         ],
         [
             InlineKeyboardButton(text='Мой ключ', callback_data='my_key'),
+            InlineKeyboardButton(text='Промо', callback_data='promo'),
             InlineKeyboardButton(text='Назад', callback_data='back')
         ]
     ]

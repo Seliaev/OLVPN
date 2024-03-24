@@ -121,3 +121,36 @@ async def set_date_to_table_users(account: int, value_date: str) -> bool:
             return True
         except NoResultFound:
             return False
+
+
+async def set_promo_status(account: int, value_promo: bool) -> bool:
+    """
+
+    :param account: int - Данные из таблицы users_vpn
+    :param value_promo: bool - Значение получен промо-ключ или нет
+    :return: bool - True в случае успеха, False в противном
+    """
+    with Session(engine) as session:
+        try:
+            user_record = session.query(Users).filter_by(account=account).one()
+            if value_promo != user_record.promo_key:
+                user_record.promo_key = value_promo
+                session.commit()
+            return True
+        except NoResultFound:
+            return False
+
+
+async def get_promo_status(account: int) -> bool:
+    """
+    Получение статуса промо для указанного пользователя
+
+    :param account: int - Данные из таблицы users_vpn
+    :return: bool - True если пользователь получал промо-ключ, False в противном случае
+    """
+    with Session(engine) as session:
+        try:
+            user_record = session.query(Users).filter_by(account=account).one()
+            return user_record.promo_key
+        except NoResultFound:
+            return False

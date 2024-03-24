@@ -8,6 +8,7 @@ from core.handlers.handlers_keyboards.back_key_handler import back_key
 from core.handlers.handlers_keyboards.get_key_handler import get_key, day_key, week_key, month_key, my_key
 from core.handlers.handlers_keyboards.del_key_handler import del_key
 from core.handlers.handlers_keyboards.get_link_to_app_handler import get_link_to_app
+from core.handlers.handlers_keyboards.get_promo_handler import get_promo
 from core.utils.throttle import throttle
 
 
@@ -45,6 +46,7 @@ async def switch_menu(case_number: str, call: CallbackQuery, state: FSMContext) 
         'back': back_key,
         'pay_check': pay_check_key,
         'my_key': my_key,
+        'promo': get_promo,
     }
 
     default_handler: Callable[[CallbackQuery, FSMContext],
