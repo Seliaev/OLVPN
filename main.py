@@ -6,6 +6,9 @@ import signal
 from core import bot, check_time_subscribe
 from logs.log_main import RotatingFileLogger
 
+logger = RotatingFileLogger()
+logger_payments = RotatingFileLogger(config_file='logs/log_settings_payments.json')
+
 
 def run_bot() -> None:
     """
@@ -40,8 +43,8 @@ if __name__ == "__main__":
     """
     signal.signal(signal.SIGINT, stop_application)
 
-    logger = RotatingFileLogger()
-    logger.log('info', 'Запуск')
+    logger.log('info', 'Запуск приложения')
+    logger_payments.log('warning', 'Запуск логгера payments')
     bot_th = multiprocessing.Process(target=run_bot)
     plan_th = multiprocessing.Process(target=run_checker)
     bot_th.start()

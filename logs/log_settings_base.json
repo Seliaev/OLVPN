@@ -1,5 +1,5 @@
 {
-    "log_dir": "logs",
+    "log_dir": "logs/base",
     "log_file_format": "%Y-%m-%d.log",
     "max_bytes": 200000000,
     "backup_count": 7

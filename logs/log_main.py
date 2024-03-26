@@ -6,21 +6,22 @@ from logging.handlers import TimedRotatingFileHandler
 
 
 class RotatingFileLogger:
-    def __init__(self, config_file='logs/log_settings.json'):
+    def __init__(self, config_file='logs/log_settings_base.json'):
         with open(config_file, 'r') as f:
             config = json.load(f)
 
-        self.log_dir = config.get('log_dir', 'logs')
+        self.log_dir = config.get('log_dir', 'logs/base')
         self.log_file_format = config.get('log_file_format', '%Y-%m-%d.log')
         self.max_bytes = config.get('max_bytes', 200000000)
         self.backup_count = config.get('backup_count', 7)
 
-        self.logger = logging.getLogger()
+        self.logger = logging.getLogger(name=config.get('log_name', None))
         self.logger.setLevel(logging.INFO)
 
         self.setup_logging()
 
-        sys.excepthook = self.handle_exception
+        if self.log_dir == 'logs/base':
+            sys.excepthook = self.handle_exception
 
     def setup_logging(self):
         """Настройки логгирования, ротация"""
