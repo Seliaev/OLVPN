@@ -82,8 +82,24 @@ async def set_key_to_table_users(account: int, value_key: OutlineManager) -> boo
             return False
 
 
-async def set_premium_to_table_users(account: int, value_premium: bool) -> bool:
+async def get_key_from_table_users(account: int) -> str or bool:
     """
+    Получение ключа пользователя из таблицы users_vpn
+
+    :param account: int - Идентификатор записи
+    :return: str - Ключ в виде строки в случае успеха, False в противном
+    """
+    with Session(engine) as session:
+        try:
+            user_record = session.query(Users).filter_by(account=account).one()
+            return user_record.key
+        except NoResultFound:
+            return False
+
+
+async def set_premium_status(account: int, value_premium: bool) -> bool:
+    """
+    Установка статуса премиум для указанного пользователя
 
     :param account: int - Данные из таблицы users_vpn
     :param value_premium: bool - Значение премиума
@@ -96,6 +112,21 @@ async def set_premium_to_table_users(account: int, value_premium: bool) -> bool:
                 user_record.premium = value_premium
                 session.commit()
             return True
+        except NoResultFound:
+            return False
+
+
+async def get_premium_status(account: int) -> bool:
+    """
+    Получение статуса премиум для указанного пользователя
+
+    :param account: int - Данные из таблицы users_vpn
+    :return: bool - True если у пользователя стоит флаг премиум, False в противном случае
+    """
+    with Session(engine) as session:
+        try:
+            user_record = session.query(Users).filter_by(account=account).one()
+            return user_record.premium
         except NoResultFound:
             return False
 
