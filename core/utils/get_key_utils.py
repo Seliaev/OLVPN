@@ -1,6 +1,6 @@
 from aiogram.types import CallbackQuery
 from datetime import datetime, timedelta
-from core.sql.users_vpn import set_key_to_table_users, set_premium_to_table_users, set_date_to_table_users
+from core.sql.users_vpn import set_key_to_table_users, set_premium_status, set_date_to_table_users
 
 
 def get_future_date(add_day: int) -> str:
@@ -31,7 +31,7 @@ async def get_ol_key_func(call: CallbackQuery, untill_date: str) -> str or bool:
     key_user = olm.get_key_from_ol(id_user=str(id_user))
     if key_user is None:
         key_user = olm.create_key_from_ol(id_user=str(id_user))
-    premium_user_db = await set_premium_to_table_users(account=id_user, value_premium=True)
+    premium_user_db = await set_premium_status(account=id_user, value_premium=True)
     date_user_db = await set_date_to_table_users(account=id_user, value_date=untill_date)
     if premium_user_db and date_user_db:
         await set_key_to_table_users(account=id_user, value_key=key_user.access_url)

@@ -13,6 +13,6 @@ def start_keyboard() -> InlineKeyboardMarkup:
     keyboard_builder.button(text='Ключ', callback_data='get_key')
     keyboard_builder.button(text='Инструкция', url=link_instruction)
     keyboard_builder.button(text='Приложение', callback_data='get_link_to_app')
-    keyboard_builder.button(text='Удалить ключ', callback_data='del_key')
+    keyboard_builder.button(text='Удалить ключ', callback_data='ask_del_key')
     keyboard_builder.adjust(2)
     return keyboard_builder.as_markup()

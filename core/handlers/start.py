@@ -18,7 +18,7 @@ async def command_start(message: Message) -> None:
     id_user = message.from_user.id
     check_user = await get_user_data_from_table_users(account=id_user)
     check_key = olm.get_key_from_ol(id_user=str(id_user))
-    content = await create_answer_from_html(message.text)
+    content = await create_answer_from_html(name_temp=message.text)
     if check_user is None and check_key is None:
         name_user = f"{message.from_user.first_name}_{message.from_user.last_name}"
         await add_user_to_db(account=message.from_user.id, account_name=name_user)
