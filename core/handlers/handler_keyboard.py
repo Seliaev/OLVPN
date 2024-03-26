@@ -6,7 +6,7 @@ from aiogram.types import CallbackQuery, InlineKeyboardMarkup
 from core.handlers.handlers_keyboards.after_pay_handler import pay_check_key
 from core.handlers.handlers_keyboards.back_key_handler import back_key
 from core.handlers.handlers_keyboards.get_key_handler import get_key, day_key, week_key, month_key, my_key
-from core.handlers.handlers_keyboards.del_key_handler import del_key
+from core.handlers.handlers_keyboards.del_key_handler import del_key, ask_del_key
 from core.handlers.handlers_keyboards.get_link_to_app_handler import get_link_to_app
 from core.handlers.handlers_keyboards.get_promo_handler import get_promo
 from core.utils.throttle import throttle
@@ -40,6 +40,7 @@ async def switch_menu(case_number: str, call: CallbackQuery, state: FSMContext) 
         'get_key': get_key,
         'get_link_to_app': get_link_to_app,
         'del_key': del_key,
+        'ask_del_key': ask_del_key,
         'day': day_key,
         'week': week_key,
         'month': month_key,
