@@ -2,7 +2,8 @@ import asyncio
 from datetime import datetime
 from aiogram import Bot
 
-from core.sql.users_vpn import get_premium_status
+from core.api_s.outline.outline_api import OutlineManager
+from core.sql.function_db_user_vpn.users_vpn import get_premium_status
 
 
 async def check_time_subscribe(date: datetime) -> bool:
@@ -50,9 +51,9 @@ async def finish_set_date_and_premium() -> None:
 
     :return: None
     """
-    from core.sql.users_vpn import (get_all_records_from_table_users, set_premium_status,
-                                    set_date_to_table_users, set_key_to_table_users)
-    from core.bot import bot, olm
+    from core.sql.function_db_user_vpn.users_vpn import (get_all_records_from_table_users, set_premium_status,
+                                                         set_date_to_table_users, set_key_to_table_users)
+    from core.bot import bot
     all_records = await get_all_records_from_table_users()
     all_finish_records = await get_and_check_records(all_records)
     if all_finish_records:
@@ -61,6 +62,7 @@ async def finish_set_date_and_premium() -> None:
                 await set_key_to_table_users(account=record.account, value_key=None)
                 await set_premium_status(account=record.account, value_premium=False)
                 await set_date_to_table_users(account=record.account, value_date=None)
+                olm = OutlineManager(region_server=record.region_server)
                 olm.delete_key_from_ol(id_user=str(record.account))
                 await send_notification_to_user(bot=bot, id_user=record.account)
 
@@ -72,7 +74,7 @@ async def main_check_subscribe() -> None:
     """
     while True:
         await finish_set_date_and_premium()
-        await asyncio.sleep(1800)  # Проверка раз в пол часа
+        await asyncio.sleep(60*5)  # Проверка раз в 5 минут
 
 
 if __name__ == '__main__':

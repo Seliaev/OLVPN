@@ -8,9 +8,10 @@ load_dotenv()
 # Для бота tlg
 api_key_tlg = os.getenv("API_KEY_TLG")
 admin_tlg = os.getenv("ADMIN_TLG")
+
 # Для сервера outline
-api_url = os.getenv("API_URL")
-cert_sha256 = os.getenv("CERT_SHA256")
+# Перенесено в json файл /core/api_s/outline/settings_api_outline.json
+
 # Для юкасса
 client_id = os.getenv("YOUKASSA_ID")
 secret_key = os.getenv("YOUKASSA_SECRET")
@@ -25,15 +26,6 @@ if not admin_tlg:
     with open(".env", "a") as env_file:
         env_file.write(f"ADMIN_TLG={admin_tlg}\n")
 
-if not api_url:
-    api_url = input("Введите api url outline сервера: ")
-    with open(".env", "a") as env_file:
-        env_file.write(f"API_URL={api_url}\n")
-
-if not cert_sha256:
-    cert_sha256 = input("Введите сертификат sha256 outline сервера: ")
-    with open(".env", "a") as env_file:
-       env_file.write(f"CERT_SHA256={cert_sha256}\n")
 
 if not client_id:
     client_id = input("Введите ID от ЮКасса: ")

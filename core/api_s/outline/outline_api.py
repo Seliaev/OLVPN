@@ -1,5 +1,23 @@
-from core.settings import api_url, cert_sha256
+import json
+
 from outline_vpn.outline_vpn import OutlineVPN, OutlineServerErrorException
+
+
+def get_name_all_active_server_ol() -> list:
+    """
+    Получение всех активных серверов
+    Данные для сервера берутся из settings_api_outline.json
+
+    :return: list - name_en всех активных серверов
+    """
+    config_file = 'core/api_s/outline/settings_api_outline.json'
+    active_servers = []
+    with open(config_file, 'r') as f:
+        config = json.load(f)
+    for value in config.values():
+        if value['is_active']:
+            active_servers.append(value['name_en'])
+        return active_servers
 
 
 class OutlineManager:
@@ -10,12 +28,32 @@ class OutlineManager:
     - client (OutlineVPN): Экземпляр класса OutlineVPN для взаимодействия с API Outline VPN.
     """
 
-    def __init__(self):
+    def __init__(self, region_server: str = 'nederland'):
         """
-        Инициализация объекта OutlineManager.
+        Инициализация объекта OutlineManager
+
+        Args:
+        - region_server: str - Регион сервера для инициализации клиента
         """
-        self.client = OutlineVPN(api_url=api_url,
-                                 cert_sha256=cert_sha256)
+
+        self.region_server = region_server
+        self._client = self.__client_init()
+
+    def __client_init(self) -> OutlineVPN:
+        """
+        Инициализация клиента
+        Данные для сервера берутся из settings_api_outline.json
+
+        :return: OutlineVPN - Объект OutlineVPN
+        """
+        config_file = 'core/api_s/outline/settings_api_outline.json'
+        with open(config_file, 'r') as f:
+            config = json.load(f)
+        data_server = config[self.region_server]
+        api_url = data_server['api_url']
+        cert_sha256 = data_server['cert_sha256']
+        return OutlineVPN(api_url=api_url,
+                          cert_sha256=cert_sha256)
 
     def get_key_from_ol(self, id_user: str) -> str or None:
         """
@@ -27,7 +65,7 @@ class OutlineManager:
         - str or None: Ключ пользователя или None, если ключ не найден.
         """
         try:
-            key = self.client.get_key(id_user)
+            key = self._client.get_key(id_user)
         except OutlineServerErrorException:
             key = None
         return key
@@ -42,7 +80,7 @@ class OutlineManager:
         Returns:
         - dict: Информация о созданном ключе.
         """
-        return self.client.create_key(key_id=id_user, name=id_user)
+        return self._client.create_key(key_id=id_user, name=id_user)
 
     def delete_key_from_ol(self, id_user: str) -> bool:
         """
@@ -57,22 +95,7 @@ class OutlineManager:
         key = self.get_key_from_ol(id_user=id_user)
         if key is None:
             return False
-        return self.client.delete_key(key.key_id)
-
-    # Для расширения функционала на будущее
-    # def set_data_limit(self, id_user, limit):
-    #     """Установка лимита по использованным данным"""
-    #     key = self.get_key(id_user)
-    #     if key is None:
-    #         return None
-    #     return self.client.add_data_limit(key.key_id, 1000 * 1000 * limit)
-    #
-    # def delete_data_limit(self, id_user):
-    #     """Удаление лимита по использованным данным"""
-    #     key = self.get_key(id_user)
-    #     if key is None:
-    #         return None
-    #     return self.client.delete_data_limit(key.key_id)
+        return self._client.delete_key(key.key_id)
 
 
 if __name__ == "__main__":

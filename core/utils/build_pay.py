@@ -22,12 +22,14 @@ async def build_pay(*args) -> (str, InlineKeyboardMarkup):
     name_temp = 'day'
     current = "руб"
     payment_url, payment = data.get('pay', (None, None))
+    region_server = data.get('region_server', 'back')
     if payment_url is None or amount != int(payment.amount.value):
         payment_url, payment = await create_payment(amount_value=amount, count_day=day_count,
                                                     word_day=word_days, id_user=id_user)
-    url_pay_keyboard = url_pay_keyboard_build(payment_url)
+    url_pay_keyboard = url_pay_keyboard_build(url_payment=payment_url, back_button=region_server)
     content = await create_answer_from_html(name_temp=name_temp, amount=amount, current=current,
                                             day_count=day_count, word_days=word_days)
     await state.update_data(pay=(payment_url, payment))
     await state.update_data(day_count=day_count)
+    await state.update_data(word_days=word_days)
     return content, url_pay_keyboard

@@ -1,14 +1,15 @@
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, InlineKeyboardMarkup
 
-from core.keyboards.start_button import start_keyboard
-from core.keyboards.time_button import time_keyboard
-from core.sql.users_vpn import get_user_data_from_table_users
+from core.keyboards.choise_region_button import choise_region_keyboard
+from core.keyboards.my_key_button import my_key_keyboard
+from core.sql.function_db_user_vpn.users_vpn import get_user_data_from_table_users, get_region_server
 from core.utils.build_pay import build_pay
 from core.utils.create_view import create_answer_from_html
+from core.utils.get_region_name import get_region_name_from_json
 
 
-async def get_key(call: CallbackQuery, state: FSMContext) -> (str, InlineKeyboardMarkup):
+async def choise_region(call: CallbackQuery, state: FSMContext) -> (str, InlineKeyboardMarkup):
     """
     Обработчик для получения ключа.
     Отправка на выбор продолжительности действия ключа
@@ -17,10 +18,10 @@ async def get_key(call: CallbackQuery, state: FSMContext) -> (str, InlineKeyboar
     :param state: FSMContext - Объект FSMContext.
     :return: Текст ответа и клавиатура.
     """
-    id_user = call.from_user.id
     name_temp = call.data
     content = await create_answer_from_html(name_temp=name_temp)
-    return content, await time_keyboard(id_user=id_user)
+    await state.update_data(pay=(None, None))
+    return content, choise_region_keyboard()
 
 
 async def day_key(call: CallbackQuery, state: FSMContext) -> (str, InlineKeyboardMarkup):
@@ -91,7 +92,10 @@ async def my_key(call: CallbackQuery, state: FSMContext) -> (str, InlineKeyboard
         if untill_date:
             untill_date = untill_date.strftime('%d.%m.%Y - %H:%M')
             if untill_date != '01.01.2000 - 00:00':
-                content = await create_answer_from_html(name_temp=name_temp, user_key=user_data.key, untill_date=untill_date)
-                return content, start_keyboard()
-    content = f'У вас нет ключа'
-    return content, await time_keyboard(id_user=id_user)
+                region = await get_region_server(account=id_user)
+                region_name = await get_region_name_from_json(region=region)
+                content = await create_answer_from_html(name_temp=name_temp, user_key=user_data.key,
+                                                        untill_date=untill_date, region_name=region_name)
+                return content, my_key_keyboard()
+    content = f'У вас нет ключа, но вы можете его купить\nВыберите регион'
+    return content, choise_region_keyboard()

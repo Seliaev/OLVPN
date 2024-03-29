@@ -185,3 +185,37 @@ async def get_promo_status(account: int) -> bool:
             return user_record.promo_key
         except NoResultFound:
             return False
+
+
+async def set_region_server(account: int, value_region: str) -> bool:
+    """
+
+    :param account: int - Данные из таблицы users_vpn
+    :param value_region: str - Значение региона сервера
+    :return: bool - True в случае успеха, False в противном
+    """
+    with Session(engine) as session:
+        try:
+            user_record = session.query(Users).filter_by(account=account).one()
+            if value_region != user_record.region_server:
+                user_record.region_server = value_region
+                session.commit()
+            return True
+        except NoResultFound:
+            return False
+
+
+async def get_region_server(account: int) -> str:
+    """
+    Получение присвоенного региона для указанного пользователя
+
+    :param account: int - Данные из таблицы users_vpn
+    :return: str - Значение присвоенного региона сервера, False в противном случае
+    """
+    with Session(engine) as session:
+        try:
+            user_record = session.query(Users).filter_by(account=account).one()
+            return user_record.region_server
+        except NoResultFound:
+            return None
+

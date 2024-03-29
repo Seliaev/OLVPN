@@ -23,6 +23,7 @@ class Users(Base):
     - premium (bool): Флаг премиум-статуса (по умолчанию False).
     - date (DateTime): Дата до которой длится премиум.
     - key (str): Ключ пользователя.
+    - region_server (str): Регион выбранного сервера
     - referal_link (str): Реферальная ссылка. (На будущее)
     """
     __tablename__ = 'users_vpn'
@@ -33,6 +34,7 @@ class Users(Base):
     premium = Column(Boolean, default=False)
     date = Column(DateTime, nullable=True)
     key = Column(String, nullable=True)
+    region_server = Column(String, nullable=True)
     referal_link = Column(String)
 
     user_payments = relationship('UserPay', back_populates='user')

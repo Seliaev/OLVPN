@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from core.sql.users_vpn import get_promo_status
+from core.sql.function_db_user_vpn.users_vpn import get_promo_status
 
 
 async def time_keyboard(id_user: int) -> InlineKeyboardMarkup:
@@ -17,13 +17,13 @@ async def time_keyboard(id_user: int) -> InlineKeyboardMarkup:
         InlineKeyboardButton(text='Месяц', callback_data='month')
     ]
     second_row = [
-        InlineKeyboardButton(text='Мой ключ', callback_data='my_key'),
         InlineKeyboardButton(text='Промо', callback_data='promo'),
-        InlineKeyboardButton(text='Назад', callback_data='back')
+        InlineKeyboardButton(text='Назад', callback_data='get_key')
     ]
+
     promo_status = await get_promo_status(account=id_user)
     if promo_status:
-        second_row.pop(1)
+        second_row.pop(0)
     buttons = [
         first_row,
         second_row
