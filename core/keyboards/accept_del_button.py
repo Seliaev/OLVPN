@@ -10,6 +10,6 @@ def accept_del_keyboard() -> InlineKeyboardMarkup:
     """
     keyboard_builder = InlineKeyboardBuilder()
     keyboard_builder.button(text='✅ Подтверждаю', callback_data='del_key')
-    keyboard_builder.button(text='❌ Отмена', callback_data='get_key')
+    keyboard_builder.button(text='❌ Отмена', callback_data='my_key')
     keyboard_builder.adjust(2)
     return keyboard_builder.as_markup()
