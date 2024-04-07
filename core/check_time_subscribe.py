@@ -6,16 +6,18 @@ from core.api_s.outline.outline_api import OutlineManager
 from core.sql.function_db_user_vpn.users_vpn import get_premium_status
 
 
-async def check_time_subscribe(date: datetime) -> bool:
+def check_time_subscribe(date: datetime) -> bool:
     """
     Проверка окончилась подписка или нет
 
     :param date: datetime - дата подписки
     :return: True в случае окончания, в противном False
     """
-    if datetime.now() < date:
-        return False
-    return True
+    if date != None:
+        if datetime.now() < date:
+            return False
+        else:
+            return True
 
 
 async def get_and_check_records(all_records: list) -> list:
@@ -25,12 +27,10 @@ async def get_and_check_records(all_records: list) -> list:
     :return: Записи на которых закончилась подписка
     """
     finish_subscribe = []
-    try:
-        for record in all_records:
-            if await check_time_subscribe(record.date):
-                finish_subscribe.append(record)
-    finally:
-        return finish_subscribe
+    for record in all_records:
+        if check_time_subscribe(record.date):
+            finish_subscribe.append(record)
+    return finish_subscribe
 
 
 async def send_notification_to_user(bot: Bot, id_user: int) -> None:
@@ -74,7 +74,7 @@ async def main_check_subscribe() -> None:
     """
     while True:
         await finish_set_date_and_premium()
-        await asyncio.sleep(60*5)  # Проверка раз в 5 минут
+        await asyncio.sleep(5*60)  # Проверка раз в 5 минут
 
 
 if __name__ == '__main__':
