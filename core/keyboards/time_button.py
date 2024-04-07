@@ -12,13 +12,13 @@ async def time_keyboard(id_user: int) -> InlineKeyboardMarkup:
     :return: InlineKeyboardMarkup - Объект InlineKeyboardMarkup, содержащий клавиатуру.
     """
     first_row = [
-        InlineKeyboardButton(text='День', callback_data='day'),
-        InlineKeyboardButton(text='Неделя', callback_data='week'),
-        InlineKeyboardButton(text='Месяц', callback_data='month')
+        InlineKeyboardButton(text='🪙 День', callback_data='day'),
+        InlineKeyboardButton(text='💵 Неделя', callback_data='week'),
+        InlineKeyboardButton(text='💰 Месяц', callback_data='month')
     ]
     second_row = [
-        InlineKeyboardButton(text='Промо', callback_data='promo'),
-        InlineKeyboardButton(text='Назад', callback_data='get_key')
+        InlineKeyboardButton(text='🎁 Промо', callback_data='promo'),
+        InlineKeyboardButton(text='🔙 Назад', callback_data='get_key')
     ]
 
     promo_status = await get_promo_status(account=id_user)

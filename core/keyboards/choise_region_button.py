@@ -15,7 +15,7 @@ def choise_region_keyboard() -> InlineKeyboardMarkup:
     if region_buttons:
         for button in region_buttons:
             keyboard_builder.button(text=button["name_ru"], callback_data=button["callback_data"])
-    keyboard_builder.button(text='Назад', callback_data='back')
+    keyboard_builder.button(text='🔙 Назад', callback_data='back')
     keyboard_builder.adjust(1)
     return keyboard_builder.as_markup()
 
