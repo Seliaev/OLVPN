@@ -3,24 +3,24 @@
     {
         "name_en": "nederland",
         "name_ru": "\uD83C\uDDF3\uD83C\uDDF1 Нидерланды",
-        "api_url": "https://77.238.243.191:8080/sg6aRIxWMMDwchDm26Bp7w",
-        "cert_sha256": "3B682A9FF0CD7CC4A30B8AFD73B0A0EA40FF5476547B4F74011B3A9E6745499A",
+        "api_url": "https://ip:port",
+        "cert_sha256": "code",
         "is_active": true
     },
     "germany":
     {
         "name_en": "germany",
         "name_ru": "\uD83C\uDDE9\uD83C\uDDEA Германия",
-        "api_url": "https://77.238.243.191:8080/sg6aRIxWMMDwchDm26Bp7w",
-        "cert_sha256": "3B682A9FF0CD7CC4A30B8AFD73B0A0EA40FF5476547B4F74011B3A9E6745499A",
+        "api_url": "https://ip:port",
+        "cert_sha256": "code",
         "is_active": false
     },
     "france":
     {
         "name_en": "france",
         "name_ru": "\uD83C\uDDEB\uD83C\uDDF7 Франция",
-        "api_url": "https://77.221.153.139:16382/2cR62bYGHZHdXDyddVb5dw",
-        "cert_sha256": "8A3AA008BF25BBBB2A2DFD092B2A553B88C86F093BAC9CD1C60C42F3B5447F1A",
+        "api_url": "https://ip:port",
+        "cert_sha256": "code",
         "is_active": true
     }
 }
