@@ -40,3 +40,13 @@ async def add_payment_to_db(account: int, payment_key: str, payment_date: str) -
             )
             session.add(new_record)
         session.commit()
+
+
+async def get_all_accounts_from_db() -> list:
+    """
+    Получить список всех account_id из таблицы UserPay
+    :return: list - список всех account_id
+    """
+    with Session() as session:
+        all_accounts = session.query(UserPay.account_id).distinct().all()
+        return [str(account[0]) for account in all_accounts]
